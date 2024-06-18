@@ -2218,6 +2218,7 @@ __metadata:
     vercel: ^32.4.1
     viem: 1.19.9
     wagmi: 1.4.12
+    zod: ^3.23.8
     zustand: ^4.1.2
   languageName: unknown
   linkType: soft
@@ -17021,6 +17022,13 @@ __metadata:
   peerDependencies:
     ethers: ~5.7.0
   checksum: 347ec845f18e9463350827cee5725da4d6ce8031f6c4c0b5e54c1bbac2a8c1d10a5bae3d9e61ec3ad987c8bad9921eab24cacd0415a9dabbee3ad8a71237823a
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.23.8":
+  version: 3.23.8
+  resolution: "zod@npm:3.23.8"
+  checksum: 15949ff82118f59c893dacd9d3c766d02b6fa2e71cf474d5aa888570c469dbf5446ac5ad562bb035bf7ac9650da94f290655c194f4a6de3e766f43febd432c5c
   languageName: node
   linkType: hard
 
