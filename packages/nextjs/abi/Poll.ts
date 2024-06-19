@@ -105,7 +105,29 @@ export default [
   },
   {
     inputs: [],
-    name: "MaciPubKeyLargerThanSnarkFieldSize",
+    name: "InvalidPubKey",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+    ],
+    name: "OwnableInvalidOwner",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "OwnableUnauthorizedAccount",
     type: "error",
   },
   {
@@ -142,13 +164,13 @@ export default [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "_stateRoot",
         type: "uint256",
       },
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "_numSignups",
         type: "uint256",
@@ -161,7 +183,7 @@ export default [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "_numSrQueueOps",
         type: "uint256",
@@ -174,7 +196,7 @@ export default [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "_messageRoot",
         type: "uint256",
@@ -187,7 +209,7 @@ export default [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "_numSrQueueOps",
         type: "uint256",
@@ -286,6 +308,19 @@ export default [
   {
     inputs: [],
     name: "MESSAGE_DATA_LENGTH",
+    outputs: [
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "actualStateTreeDepth",
     outputs: [
       {
         internalType: "uint8",
@@ -603,32 +638,8 @@ export default [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_pollId",
-        type: "uint256",
-      },
-    ],
+    inputs: [],
     name: "mergeMaciStateAq",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_numSrQueueOps",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_pollId",
-        type: "uint256",
-      },
-    ],
-    name: "mergeMaciStateAqSubRoots",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
