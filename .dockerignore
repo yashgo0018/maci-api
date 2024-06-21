@@ -1,0 +1,11 @@
+node_modules
+.vscode
+
+packages/hardhat/zkeys
+packages/hardhat/node_modules
+packages/hardhat/.env
+
+packages/nextjs/node_modules
+packages/nextjs/.next
+packages/nextjs/.env.local
+packages/nextjs/.env
