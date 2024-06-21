@@ -1,10 +1,11 @@
 name: CI Pipeline
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Lint"]
     branches: ["main"]
-  workflow_dispatch:
-
+    types:
+      - completed
 jobs:
   build:
     runs-on: ubuntu-latest
