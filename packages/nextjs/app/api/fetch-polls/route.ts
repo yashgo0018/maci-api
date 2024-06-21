@@ -10,6 +10,11 @@ import { maciWrapperContract } from "~~/constants";
 };
 
 export const GET = async () => {
-  const polls = await maciWrapperContract.read.fetchPolls([1n, 10n, true]);
-  return NextResponse.json({ polls });
+  try {
+    const polls = await maciWrapperContract.read.fetchPolls([1n, 10n, true]);
+    return NextResponse.json({ polls });
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json({ error: "something went wrong" }, { status: 500 });
+  }
 };

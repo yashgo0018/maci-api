@@ -8,11 +8,14 @@ export const chain = scaffoldConfig.targetNetworks[0];
 
 export const publicClient = createPublicClient({ chain, transport: http() });
 
-export const serverAccount = privateKeyToAccount(process.env.SERVER_PRIVATE_KEY as `0x${string}`);
+const serverPrivateKey = (process.env.SERVER_PRIVATE_KEY ||
+  "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80") as `0x${string}`;
+
+export const serverAccount = privateKeyToAccount(serverPrivateKey);
 export const serverWalletClient = createWalletClient({
   chain: chain,
   transport: http(),
-  key: process.env.SERVER_PRIVATE_KEY,
+  key: serverPrivateKey,
   account: serverAccount,
 });
 

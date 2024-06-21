@@ -1,3 +1,5 @@
+"use client";
+
 import { useScaffoldContractRead } from "./scaffold-eth";
 
 export const useFetchPoll = (id: bigint | undefined) =>
