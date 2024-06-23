@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { decodeEventLog } from "viem";
 import { z } from "zod";
-// import { decodeEventLog } from "viem";
-import { maciWrapperContract } from "~~/constants";
+import { maciWrapperContract, publicClient } from "~~/constants";
 
 const CreatePollSchema = z.object({
   name: z.string(),
@@ -29,28 +29,38 @@ export const POST = async (req: NextRequest) => {
     const { name, description, duration, telegramChatId, votingModeQv } = body;
     console.log(body);
 
-    // create poll on the maci contract
-    // const tx =
-    await maciWrapperContract.write.createPoll([
+    console.log([
       name,
       ["I agree", "I dont agree"],
       JSON.stringify({ description, telegramChatId }),
       BigInt(duration),
       votingModeQv ? 0 : 1,
     ]);
-    // const transaction = await publicClient.getTransactionReceipt({ hash: tx });
 
-    // const events: any[] = [];
+    // create poll on the maci contract
+    const tx = await maciWrapperContract.write.createPoll([
+      name,
+      ["I agree", "I dont agree"],
+      JSON.stringify({ description, telegramChatId }),
+      BigInt(duration),
+      votingModeQv ? 0 : 1,
+    ]);
 
-    // for (const log of transaction.logs) {
-    //   try {
-    //     events.push(decodeEventLog({ abi: maciWrapperContract.abi, data: log.data, topics: log.topics }));
-    //   } catch (e) { }
-    // }
+    const transaction = await publicClient.waitForTransactionReceipt({ hash: tx });
+    const events: any[] = [];
 
-    // const pollCreatedEvent = events.filter(event => event.eventName === "PollCreated")[0];
+    for (const log of transaction.logs) {
+      try {
+        events.push(decodeEventLog({ abi: maciWrapperContract.abi, data: log.data, topics: log.topics }));
+      } catch (e) {}
+    }
 
-    return NextResponse.json({ message: "The poll is created successfully" });
+    const pollCreatedEvent = events.filter(event => event.eventName === "PollCreated")[0];
+
+    return NextResponse.json({
+      message: "The poll is created successfully",
+      pollId: Number(pollCreatedEvent.args.pollId),
+    });
   } catch (err) {
     console.log(err);
     return NextResponse.json({ error: "something went wrong" }, { status: 500 });
