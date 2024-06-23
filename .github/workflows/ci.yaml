@@ -25,3 +25,5 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/yashgo0018/maci-api:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
