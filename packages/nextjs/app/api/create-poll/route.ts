@@ -60,6 +60,8 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({
       message: "The poll is created successfully",
       pollId: Number(pollCreatedEvent.args.pollId),
+      startTime: Number(pollCreatedEvent.args.startTime),
+      endTime: Number(pollCreatedEvent.args.endTime),
     });
   } catch (err) {
     console.log(err);
