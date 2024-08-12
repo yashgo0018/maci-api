@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 import { MACI } from "maci-contracts/contracts/MACI.sol";
 import { IPollFactory } from "maci-contracts/contracts/interfaces/IPollFactory.sol";
 import { IMessageProcessorFactory } from "maci-contracts/contracts/interfaces/IMPFactory.sol";
 import { ITallyFactory } from "maci-contracts/contracts/interfaces/ITallyFactory.sol";
 import { SignUpGatekeeper } from "maci-contracts/contracts/gatekeepers/SignUpGatekeeper.sol";
 import { InitialVoiceCreditProxy } from "maci-contracts/contracts/initialVoiceCreditProxy/InitialVoiceCreditProxy.sol";
-import { TopupCredit } from "maci-contracts/contracts/TopupCredit.sol";
 
 /// @title MACI - Minimum Anti-Collusion Infrastructure Version 1
 /// @notice A contract which allows users to sign up, and deploy new polls
-contract MACIWrapper is MACI {
+contract MACIWrapper is MACI, Ownable(msg.sender) {
 	struct PollData {
 		uint256 id;
 		string name;
@@ -59,8 +59,8 @@ contract MACIWrapper is MACI {
 		ITallyFactory _tallyFactory,
 		SignUpGatekeeper _signUpGatekeeper,
 		InitialVoiceCreditProxy _initialVoiceCreditProxy,
-		TopupCredit _topupCredit,
-		uint8 _stateTreeDepth
+		uint8 _stateTreeDepth,
+		uint256[5] memory _emptyBallotRoots
 	)
 		MACI(
 			_pollFactory,
@@ -68,8 +68,8 @@ contract MACIWrapper is MACI {
 			_tallyFactory,
 			_signUpGatekeeper,
 			_initialVoiceCreditProxy,
-			_topupCredit,
-			_stateTreeDepth
+			_stateTreeDepth,
+			_emptyBallotRoots
 		)
 	{}
 
@@ -126,7 +126,7 @@ contract MACIWrapper is MACI {
 
 		uint256 pollId = nextPollId;
 
-		PollContracts memory pollContracts = deployPoll(
+		deployPoll(
 			_duration,
 			treeDepths,
 			coordinatorPubKey,
@@ -134,6 +134,8 @@ contract MACIWrapper is MACI {
 			vkRegistry,
 			isQv
 		);
+
+		PollContracts memory pollContracts = MACI.polls[pollId];
 
 		pollIds[pollContracts.poll] = pollId;
 
