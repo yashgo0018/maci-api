@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { Keypair, PrivKey } from "maci-domainobjs";
+import { SessionProvider } from "next-auth/react";
 import { useAccount, useSignMessage } from "wagmi";
 import deployedContracts from "~~/contracts/deployedContracts";
 import { useScaffoldContractRead, useScaffoldEventHistory, useScaffoldEventSubscriber } from "~~/hooks/scaffold-eth";
@@ -102,7 +103,7 @@ export default function AuthContextProvider({ children }: { children: React.Reac
 
   return (
     <AuthContext.Provider value={{ isRegistered: Boolean(isRegistered), keypair, stateIndex, generateKeypair }}>
-      {children}
+      <SessionProvider>{children}</SessionProvider>
     </AuthContext.Provider>
   );
 }
