@@ -50,7 +50,7 @@ export default function SignInButton({ botUsername }: { botUsername: string }) {
     <LoginButton
       botUsername={botUsername}
       onAuthCallback={data => {
-        signIn("telegram-login", { callbackUrl: "/" }, data as any);
+        signIn("telegram-login", { callbackUrl: location.pathname }, data as any);
       }}
     />
   );
